@@ -8,22 +8,19 @@
       light
     >
       <v-tab @click="fetchNews()">Hot Topik</v-tab>
-      <v-tab @click="searchByCategory('ekonomi')">Ekonomi</v-tab>
-      <v-tab @click="searchByCategory('perbankan')">Perbankan</v-tab>
-      <v-tab @click="searchByCategory('bisnis')">Bisnis</v-tab>
-      <v-tab @click="searchByCategory('dunia')">Dunia</v-tab>
-      <v-tab @click="searchByCategory('histori')">Histori</v-tab>
-      <v-tab @click="searchByCategory('teknologi')">Teknologi</v-tab>
-      <v-tab @click="searchByCategory('artis')">Artis</v-tab>
-      <v-tab @click="searchByCategory('video')">Video</v-tab>
-      <v-tab @click="searchByCategory('style')">Style</v-tab>
-      <v-tab @click="searchByCategory('fashion')">Fashion</v-tab>
-      <v-tab @click="searchByCategory('kesehatan')">Kesehatan</v-tab>
-      <v-tab @click="searchByCategory('otomotif')">Otomotif</v-tab>
-      <v-tab @click="searchByCategory('properti')">Properti</v-tab>
-      <v-tab @click="searchByCategory('olahraga')">Sport</v-tab>
-      <v-tab @click="searchByCategory('sepak bola')">Sepak Bola</v-tab>
-      <v-tab @click="searchByCategory('travel')">Travel</v-tab>
+      <v-tab @click="searchByCategory('general')">General</v-tab>
+      <v-tab @click="searchByCategory('entertainment')">Entertainment</v-tab>
+      <v-tab @click="searchByCategory('business')">Bisnis</v-tab>
+      <v-tab @click="searchByCategory('health')">Kesehatan</v-tab>
+      <v-tab @click="searchByCategory('science')">Sains</v-tab>
+      <v-tab @click="searchByCategory('sports')">Olahraga</v-tab>
+      <v-tab @click="searchByCategory('technology')">Teknologi</v-tab>
+      <!-- Cara lain -->
+      <v-tab @click="searchByOthersCategory('style')">Style</v-tab>
+      <v-tab @click="searchByOthersCategory('fashion')">Fashion</v-tab>
+      <v-tab @click="searchByOthersCategory('otomotif')">Otomotif</v-tab>
+      <v-tab @click="searchByOthersCategory('properti')">Properti</v-tab>
+      <v-tab @click="searchByOthersCategory('travel')">Travel</v-tab>
     </v-tabs>
   </v-card>
 </template>
@@ -35,8 +32,14 @@ export default {
         fetchNews() {
             this.$store.dispatch('fetchList');
         },
+        
         searchByCategory(keyWord){
-            this.$store.dispatch('fetchByMenu', keyWord);
+            const searchKey = `top-headlines?category=${keyWord}`;
+            this.$store.dispatch('fetchByMenu', searchKey);
+        },
+        searchByOthersCategory(keyWord){
+            const searchKey = `everything?q=${keyWord}`;
+            this.$store.dispatch('fetchByMenu', searchKey);
         }
     }
 }

@@ -1,18 +1,36 @@
 <template>
-      <v-navigation-drawer color="info" :value="menuValue" absolute stateless>
+    <v-navigation-drawer 
+        color="info" 
+        :value="menuValue" 
+        stateless
+        absolute
+        dark
+        hide-overlay
+
+    >
+        <v-list>
+            <v-list-item router exact @click="fetchNews">
+                <v-list-item-action>
+                    <v-icon>mdi-home</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    Home
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
         <div style="cursor: pointer; padding: 2px;">
-            <div v-for="(artic, index) in newsList" :key="index">
-                <div class="px-3 py-3 dark d-flex" @click="searchByMenu(artic.source.name)">
+            <div v-for="artic in menuList" :key="artic.id">
+                <div class="px-3 py-3 dark d-flex" @click="searchByMenu(artic.name)">
                     <v-avatar
-                        color="success"
+                        color="warning"
                         size="35"
                     >
-                    <img :src="artic.urlToImage" :alt="artic.source.name">
+                    {{artic.name.charAt(0)}}{{artic.name.charAt(1)}}
                     </v-avatar>
-                  <div class="ml-2" style="color: white;"><strong> {{artic.source.name}}</strong></div>
+                  <div class="ml-2" style="color: white"><strong>{{artic.name}}</strong></div>
                 </div>
             </div>
-         </div>
+        </div>
     </v-navigation-drawer>
 </template>
 
@@ -20,18 +38,22 @@
 export default {
     name: 'SidebarMenu',
     computed: {
-        newsList() {
-            return this.$store.state.articles;
-        },
         menuValue(){
             return this.$store.state.sidebar;
-        }
+        },
+        menuList() {
+            return this.$store.state.newsSources;
+        },
     },
     methods: {
         searchByMenu(keyWord){
-            this.$store.dispatch('fetchByMenu', keyWord);
-        }
-    }
+            const searchKey = `top-headlines?sources=${keyWord}`
+            this.$store.dispatch('fetchByMenu', searchKey);
+        },
+        fetchNews() {
+            this.$store.dispatch('fetchList');
+        },
+    },
 }
 </script>
 

@@ -68,6 +68,7 @@ export default {
         },
         setMenu(){
             if (this.menuValue === false) {
+                this.$store.dispatch('fetchForSideMenu');
                 return this.$store.dispatch('changeSidebar', true);
             }
             else {
@@ -79,7 +80,8 @@ export default {
                 this.searchOn = false;
             }
             else {
-                this.$store.dispatch('fetchByMenu', this.keyWordSearch);
+                const searchKey = `everything?q=${this.keyWordSearch}`;
+                this.$store.dispatch('fetchByMenu', searchKey);
                 this.keyWordSearch = '';
                 // this.searchOn = false;
                   

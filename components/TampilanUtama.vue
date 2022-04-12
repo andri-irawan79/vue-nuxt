@@ -196,7 +196,7 @@ a {
   margin: 0 5px;
 }
 .spinn {
-  animation: button-loading-spinner 1s ease 15;
+  animation: button-loading-spinner 1s ease 7;
 }
 
 @keyframes button-loading-spinner {

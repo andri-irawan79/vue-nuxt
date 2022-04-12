@@ -13,6 +13,7 @@ const createStore = () => {
         isError: null,
       },
       sidebar: false,
+      newsSources: [],
     },
     getters: {
     },
@@ -20,19 +21,28 @@ const createStore = () => {
       setNews(state, payload) {
         state.articles = payload;
       },
+
       setStatusEmpty(state, payload) {
         state.statusPage.isEmpty = payload;
       },
+
       setStatusError(state, payload) {
         state.statusPage.isError = payload;
       },
+
       setIndex(state, payload) {
         state.index = payload;
       },
+
       setSidebar(state, payload) {
         state.sidebar = payload;
       },
+
+      setSideMenu(state, payload) {
+        state.newsSources = payload;
+      },
     },
+
     actions: {
       fetchList(store) {
         axios
@@ -44,9 +54,10 @@ const createStore = () => {
             store.commit("setStatusError", error);
           });
       },
+
       fetchByMenu(store, payload) {
         axios
-          .get(`https://newsapi.org/v2/everything?q=${payload}&apiKey=c0ad48b1da834686bda80c94e73a869f`)
+          .get(`https://newsapi.org/v2/${payload}&apiKey=c0ad48b1da834686bda80c94e73a869f`)
           .then((response) => {
             store.commit("setNews", response.data.articles);
           })
@@ -54,12 +65,26 @@ const createStore = () => {
             store.commit("setStatusErorr", error);
           });
       },
+
+      fetchForSideMenu(store) {
+        axios
+          .get(`https://newsapi.org/v2/top-headlines/sources?apiKey=c0ad48b1da834686bda80c94e73a869f`)
+          .then((response) => {
+            store.commit("setSideMenu", response.data.sources);
+          })
+          .catch((error) => {
+            store.commit("setStatusErorr", error);
+          });
+      },
+
       changeSidebar(store, payload){
         store.commit('setSidebar', payload);
       },
+
       changeStatusPageEmpty(store, payload){
         store.commit('setStatusEmpty', payload);
       },
+
       changeStatusPageError(store, payload){
         store.commit('setStatusError', payload);
       }
